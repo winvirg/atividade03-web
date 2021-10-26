@@ -6,34 +6,55 @@ export default function Votacao(){
     const [countLimoeiro, setCountLimoeiro] = useState(0);
     const [countJuazeiro, setCountJuazeiro] = useState(0);
     const [moreVoted, setMoreVoted] = useState([""]);
+    const [moreNumberVotes, setMoreNumberVotes] = useState(0);
 
-    function comparar(){
-        var localMoreVoted = {count:0, cityNames:[""]};
-        
-        if(countFortaleza>moreVoted.count){
-            localMoreVoted.cityNames="Fortaleza";
-            localMoreVoted.count=countFortaleza;
+    function comparar(city){
+        switch (city) {
+            case "Fortaleza":
+                setCountFortaleza(countFortaleza + 1);
+                let localFortaleza = countFortaleza +1;
 
-        }if(countQuixada>moreVoted.count){
-            localMoreVoted.cityNames="Quixadá";
-            localMoreVoted.count=countQuixada;
+                if(localFortaleza===moreNumberVotes){
+                    setMoreVoted([...moreVoted, "Fortaleza"])
+                }
+                else if(localFortaleza>moreNumberVotes){
+                    setMoreVoted(["Fortaleza"]);
+                    setMoreNumberVotes(localFortaleza);
+                }
+                break;
+
+            case "Quixadá":
+                setCountQuixada(countQuixada + 1);
+                let localQuixada = countQuixada +1;
+
+                if(localQuixada===moreNumberVotes){
+                    setMoreVoted([...moreVoted, "Quixadá"])
+                }
+                else if(localQuixada>moreNumberVotes){
+                    setMoreVoted(["Quixadá"]);
+                    setMoreNumberVotes(localQuixada);
+                }
+                break;
+
+            default:
+                break;
         }
-
-        setMoreVoted(localMoreVoted.cityNames);
     }
     return (
         <div>
             <h1>VOTAÇÃO DE CIDADES</h1>
-            <button onClick={() => setCountFortaleza(countFortaleza + 1), comparar()} color='red'>Fortaleza</button>
-            <button onClick={() => setCountQuixada(countQuixada + 1), comparar()} color='blue'>Quixadá</button>
-            <button onClick={() => setCountLimoeiro(countLimoeiro + 1), comparar()} color='green'>Limoeiro</button>
-            <button onClick={() => setCountJuazeiro(countJuazeiro + 1), comparar()} color='yellow'>Juazeiro</button>
+            <button onClick={() => comparar("Fortaleza")} color='red'>Fortaleza</button>
+            <button onClick={() => comparar("Quixadá")} color='blue'>Quixadá</button>
+            <button onClick={() => setCountLimoeiro(countLimoeiro + 1)} color='green'>Limoeiro</button>
+            <button onClick={() => setCountJuazeiro(countJuazeiro + 1)} color='yellow'>Juazeiro</button>
+            
             <p>Fortaleza: {countFortaleza}</p>
             <p>Quixada: {countQuixada}</p>
             <p>Limoeiro: {countLimoeiro}</p>
             <p>Juazeiro: {countJuazeiro}</p>
 
             <p>Cidades mais votadas:{moreVoted}</p>
+        {console.log("out -> \n", {fortalez:countFortaleza, qixada:countQuixada, maior:moreNumberVotes, citys:moreVoted})}
         </div>
     )
 }
